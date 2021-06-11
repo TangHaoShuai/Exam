@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.tsd.exam.adapter.ExamAdapter;
 import cn.tsd.exam.adapter.ExamTwoAdapter;
@@ -28,7 +32,8 @@ public class MyQuestionBankFragment extends Fragment {
     private ListView listView;
     private TextView selfBuiltTestPaper;
     private TextView collectionPapers;
-
+    private List<TextView> list;
+    private FloatingActionButton fab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,29 +66,33 @@ public class MyQuestionBankFragment extends Fragment {
         listView.setAdapter(adapter); //绑定适配器
         adapter.notifyDataSetChanged(); // 刷新数据
 
+        //设置默认样式
+        selfBuiltTestPaper.setBackgroundColor(Color.BLUE);
+        selfBuiltTestPaper.setTextColor(Color.WHITE);
+        list = new ArrayList<>();
+        list.add(selfBuiltTestPaper);
+        list.add(collectionPapers);
         //设置点击样式
         selfBuiltTestPaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selfBuiltTestPaper.setTextColor(Color.WHITE);
-                selfBuiltTestPaper.setBackgroundColor(Color.parseColor("#FFBB86FC"));
-                collectionPapers.setTextColor(Color.BLACK);
-                collectionPapers.setBackgroundColor(Color.WHITE);
+                Utility.setStyle(selfBuiltTestPaper, list);
             }
         });
         collectionPapers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                collectionPapers.setTextColor(Color.WHITE);
-                collectionPapers.setBackgroundColor(Color.parseColor("#FFBB86FC"));
-                selfBuiltTestPaper.setTextColor(Color.BLACK);
-                selfBuiltTestPaper.setBackgroundColor(Color.WHITE);
+                Utility.setStyle(collectionPapers, list);
             }
         });
 
-
-
-
+        //小圆圈
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"1`12`1",Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -91,6 +100,7 @@ public class MyQuestionBankFragment extends Fragment {
         selfBuiltTestPaper = (TextView) view.findViewById(R.id.self_built_test_paper);
         collectionPapers = (TextView) view.findViewById(R.id.collection_papers);
         listView = view.findViewById(R.id.listview);
+        fab = view.findViewById(R.id.fab);
 
     }
 }
