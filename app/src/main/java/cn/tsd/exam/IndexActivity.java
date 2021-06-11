@@ -33,7 +33,7 @@ public class IndexActivity extends AppCompatActivity {
                         R.drawable.kaoshi,
                         R.drawable.kaoshi1)
                 .addItem(MyFragment.class,
-                        "我的题库",
+                        "我的",
                         R.drawable.wode,
                         R.drawable.wode2)
                 .build();
