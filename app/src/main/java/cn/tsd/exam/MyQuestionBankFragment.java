@@ -1,5 +1,6 @@
 package cn.tsd.exam;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +67,15 @@ public class MyQuestionBankFragment extends Fragment {
         adapter = new ExamTwoAdapter(papers, getActivity()); //初始化适配器
         listView.setAdapter(adapter); //绑定适配器
         adapter.notifyDataSetChanged(); // 刷新数据
+
+        //listView Item 点击事件
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),ExamPaperDescribe.class);
+                startActivity(intent);
+            }
+        });
 
         //设置默认样式
         selfBuiltTestPaper.setBackgroundColor(Color.BLUE);

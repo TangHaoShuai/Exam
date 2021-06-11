@@ -30,12 +30,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Adapter"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_marginBottom="10dp"
                     android:textSize="20sp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="个性签名:热爱学习天天向上"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -63,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:text="我的关注"/>
             </LinearLayout>
             <LinearLayout
@@ -80,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:text="分享消息"/>
             </LinearLayout>
             <LinearLayout
@@ -97,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:text="修改密码"/>
             </LinearLayout>
             <LinearLayout
@@ -114,6 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:text="帮助与反馈"/>
             </LinearLayout>
             <LinearLayout
@@ -130,6 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:text="关于我们"/>
             </LinearLayout>
 
