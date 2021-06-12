@@ -3,9 +3,7 @@ package cn.tsd.exam;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.tsd.exam.adapter.ExamAdapter;
 import cn.tsd.exam.adapter.ExamTwoAdapter;
 import cn.tsd.exam.base.Academy;
 import cn.tsd.exam.base.TestPaper;
 import cn.tsd.exam.base.TestQuestions;
+import cn.tsd.exam.base.TqType;
 import cn.tsd.exam.base.User;
 import cn.tsd.exam.utils.Utility;
 
@@ -49,7 +44,10 @@ public class MyQuestionBankFragment extends Fragment {
         //模拟10条试题
         ArrayList<TestQuestions> testQuestions = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            TestQuestions testQuestions1 = new TestQuestions("123", "123", "testTitle", "un1", "un2", "un3", "un4", 2);
+            //      模拟10条试题
+            List<String> options= new ArrayList<String>();
+            options.add("选项A");options.add("选项B");
+            TestQuestions testQuestions1 = new TestQuestions("123", "123", "testTitle", TqType.SINGLE_CHOICE, "un2", options, options);
             testQuestions.add(testQuestions1);
         }
 

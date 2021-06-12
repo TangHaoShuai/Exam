@@ -1,26 +1,30 @@
 package cn.tsd.exam.base;
 
+import java.util.List;
+
 //试题
 public class TestQuestions {
     private String id; //试题id
     private String testPaperID; //试卷ID
     private String titleName; // 题目名称
-    private String number1; //选项1
-    private String number2; //选项2
-    private String number3; //选项3
-    private String number4; //选项4
-    private int result; // 答案
+    private TqType tqType; // 试题类型
+    private String analysis; // 题目解析
+    private List<String> options; // 题目选项
+    private List<String> result; // 答案
 
-    public TestQuestions(String id, String testPaperID, String titleName, String number1, String number2, String number3, String number4, int result) {
+    public TestQuestions(String id, String testPaperID, String titleName, TqType tqType, String analysis, List<String> options, List<String> result) {
         this.id = id;
         this.testPaperID = testPaperID;
         this.titleName = titleName;
-        this.number1 = number1;
-        this.number2 = number2;
-        this.number3 = number3;
-        this.number4 = number4;
+        this.tqType = tqType;
+        this.analysis = analysis;
+        this.options = options;
         this.result = result;
     }
+
+    public TestQuestions() {
+    }
+
 
     public String getId() {
         return id;
@@ -46,43 +50,35 @@ public class TestQuestions {
         this.titleName = titleName;
     }
 
-    public String getNumber1() {
-        return number1;
+    public TqType getTqType() {
+        return tqType;
     }
 
-    public void setNumber1(String number1) {
-        this.number1 = number1;
+    public void setTqType(TqType tqType) {
+        this.tqType = tqType;
     }
 
-    public String getNumber2() {
-        return number2;
+    public String getAnalysis() {
+        return analysis;
     }
 
-    public void setNumber2(String number2) {
-        this.number2 = number2;
+    public void setAnalysis(String analysis) {
+        this.analysis = analysis;
     }
 
-    public String getNumber3() {
-        return number3;
+    public List<String> getOptions() {
+        return options;
     }
 
-    public void setNumber3(String number3) {
-        this.number3 = number3;
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 
-    public String getNumber4() {
-        return number4;
-    }
-
-    public void setNumber4(String number4) {
-        this.number4 = number4;
-    }
-
-    public int getResult() {
+    public List<String> getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(List<String> result) {
         this.result = result;
     }
 }

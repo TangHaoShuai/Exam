@@ -15,9 +15,7 @@ public class TestPaper {
     private User user; //创建的试卷的用户
 
     public  TestPaper(){
-
     }
-
 
     public TestPaper(String id, String name, String testQuestionsID, ArrayList<TestQuestions> testQuestions, Academy academy, String describe, String authorId, User user) {
         this.id = id;

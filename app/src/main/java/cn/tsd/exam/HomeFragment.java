@@ -27,6 +27,7 @@ import cn.tsd.exam.adapter.ExamAdapter;
 import cn.tsd.exam.base.Academy;
 import cn.tsd.exam.base.TestPaper;
 import cn.tsd.exam.base.TestQuestions;
+import cn.tsd.exam.base.TqType;
 import cn.tsd.exam.base.User;
 import cn.tsd.exam.utils.Utility;
 
@@ -91,14 +92,13 @@ public class HomeFragment extends Fragment {
         ArrayList<TestQuestions> testQuestions = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             //      模拟10条试题
-            TestQuestions testQuestions1 = new TestQuestions("123", "123", "testTitle", "un1", "un2", "un3", "un4", 2);
+            List<String> options= new ArrayList<String>();
+            options.add("选项A");options.add("选项B");
+            TestQuestions testQuestions1 = new TestQuestions("123", "123", "testTitle", TqType.SINGLE_CHOICE, "un2", options, options);
             testQuestions.add(testQuestions1);
         }
 
-
         if (papers == null) {
-
-
             papers = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 TestPaper testPaper = new TestPaper("123" + i, "123" + i + 1, "123", testQuestions,
