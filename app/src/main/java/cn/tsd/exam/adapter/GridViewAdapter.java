@@ -6,15 +6,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import cn.tsd.exam.ExamPaper;
 import cn.tsd.exam.R;
+import cn.tsd.exam.base.TestQuestions;
 
 public class GridViewAdapter extends BaseAdapter {
-    private ArrayList<String> arrayList;
+    //题目集合
+    private ArrayList<TestQuestions> arrayList;
     private ExamPaper examPaper;
-    public GridViewAdapter(ArrayList<String> arrayList, ExamPaper examPaper){
+    private Set<String> ex_correct ;  //统计对题id
+    private Set<String> ex_mistake  ; //统计错题id
+    public GridViewAdapter(ArrayList<TestQuestions> arrayList, ExamPaper examPaper,Set<String> ex_correct,Set<String> ex_mistake ){
+        this.ex_correct = ex_correct;
+        this.ex_mistake = ex_mistake;
         this.arrayList = arrayList;
         this.examPaper =examPaper;
     }
@@ -46,7 +57,21 @@ public class GridViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_number.setText(arrayList.get(position));
+        //迭代遍历 已经答对了的题目 答题卡样式设置为蓝色
+        Iterator<String> iterator = ex_correct.iterator();
+        while (iterator.hasNext()){
+            if (arrayList.get(position).getId().equals(iterator.next())){
+                viewHolder.tv_number.setBackgroundResource(R.drawable.bg_circle_blue);
+            }
+        }
+        //迭代遍历 答错 答题卡样式设置为红色
+        Iterator<String> iterator2 = ex_mistake.iterator();
+        while (iterator2.hasNext()){
+            if (arrayList.get(position).getId().equals(iterator2.next())){
+                viewHolder.tv_number.setBackgroundResource(R.drawable.bg_circle_red);
+            }
+        }
+        viewHolder.tv_number.setText(String.valueOf(position+1));
         viewHolder.tv_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

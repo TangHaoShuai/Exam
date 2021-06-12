@@ -1,6 +1,7 @@
 package cn.tsd.exam;
 
 //考试
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,20 +13,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cn.tsd.exam.base.TestQuestions;
 import cn.tsd.exam.base.TqType;
+import cn.tsd.exam.utils.Utility;
 
-
+//答题界面
 public class Exam_Paper_Fragment extends Fragment {
     private TextView count;
     private TextView type;
     public  String title,ex_count,ex_type;
-    private TextView textView;
+    private TextView textView,tv_describe;
     private LinearLayout linearLayout;
     public TestQuestions testQuestions; //试题
-    private Boolean istTheFirstTime  =  true; // 用来判断是不是第一次选择
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_exam__pape_, container, false);
@@ -35,7 +37,7 @@ public class Exam_Paper_Fragment extends Fragment {
                 RadioGroup group = new RadioGroup(getActivity());
                 //封装了View的位置、高、宽等信息
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(100,0,0,100);
+                params.setMargins(0,0,0,100);
                 group.setLayoutParams(params);
                 List<RadioButton> radioButtons = new ArrayList<>();
                 for (int i = 0; i < testQuestions.getOptions().size(); i++) {
@@ -47,12 +49,13 @@ public class Exam_Paper_Fragment extends Fragment {
                 }
                 linearLayout.addView(group);
                 for (RadioButton radioButton:radioButtons) {
-                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)radioButton.getLayoutParams();
-                    layoutParams.setMargins(0,0,0,20);
+                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)group.getLayoutParams();
+                    layoutParams.setMargins(20,0,0,20);
                     radioButton.setLayoutParams(layoutParams);
                 }
                 ExamPaper examPaper = (ExamPaper) getActivity(); //实例化 考试页面 方便对正确和错误题目数量的操作
 
+                //点击选项监听
                 group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -60,23 +63,26 @@ public class Exam_Paper_Fragment extends Fragment {
                           if ( radioButtons.get(i).getId() == checkedId ){
                               //如果选中的答案和正确答案一样
                               if (radioButtons.get(i).getText().toString().trim().equals(testQuestions.getResult().get(0).toString().trim())){
-//                                  主要逻辑 判断用户是否是第一次选择 如果是重新选择 选对了 正确的加1 错误的减1
-                                  if (istTheFirstTime) {
-                                      examPaper.ex_correct++;
-                                      istTheFirstTime = false;
-                                  }else{
-                                      examPaper.ex_correct++;
-                                      examPaper.ex_mistake--;
+                                  Utility.setRadioButtonsStyle(radioButtons.get(i),radioButtons,Color.parseColor("#00FF00"));
+                                  tv_describe.setText("");
+                                  examPaper.ex_correct.add(testQuestions.getId());
+                                  Iterator<String> iterator = examPaper.ex_mistake.iterator();
+                                  while (iterator.hasNext()){
+                                      if (testQuestions.getId().equals(iterator.next())){
+                                          iterator.remove();
+                                      }
                                   }
                               }else {
-                                  if (istTheFirstTime) {
-                                      examPaper.ex_mistake++;
-                                      istTheFirstTime = false;
-                                  }else{
-                                      examPaper.ex_mistake++;
-                                      examPaper.ex_correct--;
+                                  Utility.setRadioButtonsStyle(radioButtons.get(i),radioButtons,Color.parseColor("#D83232"));
+                                  tv_describe.setText("您选择了:"+radioButtons.get(i).getText()+"\n " +
+                                          "正确答案是:"+testQuestions.getResult().get(0)+"\n"+"解释:"+testQuestions.getAnalysis());
+                                  examPaper.ex_mistake.add(testQuestions.getId());
+                                  Iterator<String> iterator = examPaper.ex_correct.iterator();
+                                  while (iterator.hasNext()){
+                                      if (testQuestions.getId().equals(iterator.next())){
+                                          iterator.remove();
+                                      }
                                   }
-
                               }
                               System.out.println(radioButtons.get(i).getText());
                           }
@@ -98,5 +104,6 @@ public class Exam_Paper_Fragment extends Fragment {
         linearLayout = view.findViewById(R.id.box);
         count = (TextView) view.findViewById(R.id.count);
         type = (TextView) view.findViewById(R.id.type);
+        tv_describe =(TextView) view.findViewById(R.id.tv_describe);
     }
 }

@@ -5,25 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
-
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cn.tsd.exam.adapter.GridViewAdapter;
 import cn.tsd.exam.adapter.MyViewPagerAdapter;
@@ -41,39 +35,43 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
     private FragmentManager mFragmentManager; //Fragment管理器
     private List<Fragment> mFragmentList = new ArrayList<Fragment>(); //Fragment集合
     private TestPaper testPaper; //试卷
-    private TextView correct,mistake; //正确和错误统计textview
-    public int ex_correct =0 ,ex_mistake = 0; //统计正确和错误
+    private TextView correct, mistake; //正确和错误统计textview
+    public Set<String> ex_correct = new HashSet<>();  //统计对题id
+    public Set<String> ex_mistake = new HashSet<>(); //统计错题id
     private LinearLayout btn_grade;
-    public AlertDialog dialog ;
+    public AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_paper);
         init();
-
-
         mFragmentManager = getSupportFragmentManager();//定义fragment管理器
         initFragmetList();//初始化fragment的列表
         myViewPagerAdapter = new MyViewPagerAdapter(mFragmentManager, mFragmentList);//设置viewpager的适配器
         initViewPager();//初始化viewpager
     }
-    public void  setStatistics(){
-        correct.setText("正确:"+ex_correct);
-        mistake.setText("错误:"+ex_mistake);
+
+    public void setStatistics() {
+        correct.setText("正确:" + ex_correct.size());
+        mistake.setText("错误:" + ex_mistake.size());
     }
+
     private void init() {
         correct = (TextView) findViewById(R.id.correct);
         mistake = (TextView) findViewById(R.id.mistake);
         btn_grade = findViewById(R.id.btn_grade);
         btn_grade.setOnClickListener(this);
     }
+
     private void initViewPager() {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.addOnPageChangeListener(new ViewPagetOnPagerChangedLisenter());
         mViewPager.setAdapter(myViewPagerAdapter);
-        mViewPager.setCurrentItem(1);//初始化显示第一个页面
+        mViewPager.setCurrentItem(0);//初始化显示第一个页面
     }
-    public void setPage(int page){
+
+    public void setPage(int page) {
         mViewPager.setCurrentItem(page);
     }
 
@@ -93,7 +91,8 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
             //模拟正确选项
             List<String> result = new ArrayList<String>();
             result.add("PHP");
-            TestQuestions questions = new TestQuestions("123", "123", "世界上最好的编程语言是什么?",
+            //试题
+            TestQuestions questions = new TestQuestions(String.valueOf(1000+i), "123", "世界上最好的编程语言是什么?",
                     TqType.SINGLE_CHOICE, "世界上最好的编程语言是PHP", options, result);
             testQuestions.add(questions);
         }
@@ -104,11 +103,11 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
                 new User("123", "唐好帅", "移动2", Academy.ADMINISTERED)); //试卷
 
         for (int i = 0; i < testPaper.getTestQuestions().size(); i++) { //根据题目有多少个题目就创建多少个fragment
-            Exam_Paper_Fragment fragment = new Exam_Paper_Fragment();
+            Exam_Paper_Fragment fragment = new Exam_Paper_Fragment(); //实例化答题界面
             fragment.title = testPaper.getName();//设置试卷题目
             fragment.testQuestions = testPaper.getTestQuestions().get(i);//设置选项
             fragment.ex_type = testPaper.getTestQuestions().get(i).getTqType().getName();//设置选项类型
-            fragment.ex_count = i + "/" + testPaper.getTestQuestions().size(); //设置题目计数
+            fragment.ex_count = i+1 + "/" + testPaper.getTestQuestions().size(); //设置题目计数
             mFragmentList.add(fragment);
         }
 
@@ -116,23 +115,20 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_grade:
                 //答题卡对话框
                 sowDialog();
                 break;
         }
     }
+
     //答题卡对话框
     private void sowDialog() {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null);
         dialog = new AlertDialog.Builder(this).setView(view).create();
         GridView grid_view = view.findViewById(R.id.grid_view);
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < 300; i++) {
-            list.add(String.valueOf(i));
-        }
-        GridViewAdapter adapter = new GridViewAdapter(list,this);
+        GridViewAdapter adapter = new GridViewAdapter(testPaper.getTestQuestions(), this,ex_correct,ex_mistake);
         grid_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -143,26 +139,26 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
         //设置属性
         lp.gravity = Gravity.BOTTOM;
         lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
-        lp.height = Utility.getScreenWidth(this)*4/3;
+        lp.height = Utility.getScreenWidth(this) * 4 / 3;
         dialogWindow.setAttributes(lp);
         dialogWindow.setWindowAnimations(R.style.dialogWindowAnim); //设置窗口弹出动画
     }
+
     private class ViewPagetOnPagerChangedLisenter implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            //            Log.d(TAG,"onPageScrooled");
-
+            //  Log.d(TAG,"onPageScrooled");
         }
 
         @Override
         public void onPageSelected(int position) {
-//            Log.d("CHANGE","onPageSelected");
+            // Log.d("CHANGE","onPageSelected");
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-//            Log.d("SCROLLCHANGE","onPageScrollStateChanged");
+            // Log.d("SCROLLCHANGE","onPageScrollStateChanged");
         }
     }
 }

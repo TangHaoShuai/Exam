@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
+
+import cn.tsd.exam.R;
 
 public class Utility {
     //ListView与ScrollView 解决冲突
@@ -39,6 +42,17 @@ public class Utility {
             } else {
                 t.setBackgroundColor(Color.WHITE);
                 t.setTextColor(Color.BLACK);
+            }
+        }
+    }
+
+    //设置样式
+    public static void setRadioButtonsStyle(RadioButton radioButton, List<RadioButton> list ,int color  ) {
+        for (RadioButton t : list) {
+            if (t.getId() == radioButton.getId()) {
+                t.setBackgroundColor(color);
+            } else {
+                t.setBackgroundColor(Color.WHITE);
             }
         }
     }
