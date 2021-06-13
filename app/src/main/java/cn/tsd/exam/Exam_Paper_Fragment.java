@@ -20,10 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import cn.tsd.exam.base.TestQuestions;
 import cn.tsd.exam.base.TqType;
@@ -39,11 +41,13 @@ public class Exam_Paper_Fragment extends Fragment {
     public TestQuestions testQuestions; //试题
     public static final String[] letters = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    private int label = 0; //用来记录正确答案所在的选项
-
+    private int label = 0; //用来记录单选题正确答案所在的选项
+    private String resultStr = "";  //多选题正确答案字符串
+    private   ExamPaper examPaper;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exam__pape_, container, false);
+        examPaper = (ExamPaper) getActivity(); //实例化 考试页面 方便对正确和错误题目数量的操作
         init(view);
         if (testQuestions != null) {
             //如果是单选题目
@@ -63,18 +67,36 @@ public class Exam_Paper_Fragment extends Fragment {
 
     private void multipleChoice() {
         ArrayList<CheckBox> checkBoxes = new ArrayList<>(); // checkBoxes集合
-        Set<CheckBox> selectedCheckBox = new HashSet<>();   //选中的集合
+        TreeSet <CheckBox> selectedCheckBox = new TreeSet<>(new Comparator<CheckBox>() {
+            @Override
+            public int compare(CheckBox o1, CheckBox o2) {
+                //实现排序
+                String c1 = o1.getText().toString().trim();
+                String c2 = o2.getText().toString().trim();
+               return c1.compareTo(c2);
+
+            }
+        });
+        //选项的集合
         for (int i = 0; i < testQuestions.getOptions().size(); i++) {
             CheckBox checkBox = new CheckBox(getActivity());
             String tq = testQuestions.getOptions().get(i); //选项
+            for (String s : testQuestions.getResult()){
+                if (tq.equals(s)){
+                    resultStr+=letters[i]+":" +tq+" ";
+                }
+            }
             checkBox.setText(letters[i] + "  " + tq);
             checkBox.setId(i);
             linearLayout.addView(checkBox);
+            //设置样式
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) checkBox.getLayoutParams();
             layoutParams.setMargins(20, 0, 0, 20);
             checkBox.setLayoutParams(layoutParams);
             checkBoxes.add(checkBox);
         }
+
+        //选中的选项集合 selectedCheckBox
         for (CheckBox checkBox : checkBoxes) {
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -87,6 +109,7 @@ public class Exam_Paper_Fragment extends Fragment {
                 }
             });
         }
+
         Button button = new Button(getActivity());
         //封装了View的位置、高、宽等信息
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -99,34 +122,17 @@ public class Exam_Paper_Fragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String checkedStr = ""; //多选题选中的选项字符串
                 if (selectedCheckBox.size() < 2) {
                     Toast.makeText(getActivity(), "最少要选俩个选项", Toast.LENGTH_SHORT).show();
                 } else {
-                    //She 里面的无序数据放到 list里面
-                    ArrayList<CheckBox> selectedList = new ArrayList<>();
-                    Iterator<CheckBox> iterator = selectedCheckBox.iterator();
-                    while (iterator.hasNext()) {
-                        selectedList.add(iterator.next());
-                    }
-                    //把未选中的找出来
-                    ArrayList<CheckBox> cc = new ArrayList<>();
+                    //背景改成白色
                     for (CheckBox s : checkBoxes) {
-                        int label = 0;
-                        for (CheckBox c : selectedList) {
-                            if (s.getId() == c.getId()) {
-                                label++;
-                            }
-                        }
-                        if (label == 0) {
-                            cc.add(s);
-                        }
-                    }
-                    //把未选择的选项背景改成白色
-                    for (CheckBox s : cc) {
                         s.setBackgroundColor(Color.WHITE);
                     }
-//                   遍历选中的集合 如果选中的答案和正确答案一样 把背景颜色改成蓝色 错误改成红色
-                    for (CheckBox s : selectedList) {
+                    int label_wrong = 0; //记录他错误了多少个选项
+                    for (CheckBox s : selectedCheckBox){
+                        checkedStr+= s.getText().toString().trim()+"  ";
                         int label = 0;
                         for (String c : testQuestions.getResult()) {
                             String xz = s.getText().toString().substring(1).trim(); //获取选项的值
@@ -136,10 +142,32 @@ public class Exam_Paper_Fragment extends Fragment {
                         }
                         if (label > 0) {
                             s.setBackgroundColor(Color.parseColor("#00FF00"));
+
                         } else {
                             s.setBackgroundColor(Color.parseColor("#D83232"));
+                            label_wrong++;
                         }
                     }
+                    //如果他选中的数量和正确答案数量一样
+                    if (selectedCheckBox.size() == testQuestions.getResult().size() ){
+                        //在判断他有没有选错
+                        if (label_wrong == 0 ){
+                            examPaper.ex_correct.add(testQuestions.getId()); //正确把题目id添加进ex_correct
+                            examPaper.ex_mistake.remove(testQuestions.getId()); //把错题的集合里面的删除
+                            tv_describe.setText("");
+                        }else {
+                            examPaper.ex_mistake.add(testQuestions.getId()); //错误把题目id添加进ex_correct
+                            examPaper.ex_correct.remove(testQuestions.getId());
+                            tv_describe.setText("您选择了:" +checkedStr+ "\n" +
+                                    "正确答案是:" + resultStr + "\n解释:"+testQuestions.getAnalysis());
+                        }
+                    }else{
+                        examPaper.ex_mistake.add(testQuestions.getId()); //错误把题目id添加进ex_correct
+                        examPaper.ex_correct.remove(testQuestions.getId());
+                        tv_describe.setText("您选择了:" +checkedStr+ "\n" +
+                                "正确答案是:" + resultStr + "\n解释:"+testQuestions.getAnalysis());
+                    }
+                    examPaper.setStatistics(); //刷新对错题目数
                 }
             }
         });
@@ -170,7 +198,7 @@ public class Exam_Paper_Fragment extends Fragment {
             layoutParams.setMargins(20, 0, 0, 20);
             radioButton.setLayoutParams(layoutParams);
         }
-        ExamPaper examPaper = (ExamPaper) getActivity(); //实例化 考试页面 方便对正确和错误题目数量的操作
+
 
         //点击选项监听
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

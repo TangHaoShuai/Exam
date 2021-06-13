@@ -46,9 +46,6 @@
             android:text="假如需要显示一段代码,通常代码一行的长度超了手机屏幕的宽度,这时候TextView默认会选择自动换行()。"
             android:textSize="15sp"
             android:textColor="@color/black"/>
-
-
-
     </LinearLayout>
 
     <LinearLayout
