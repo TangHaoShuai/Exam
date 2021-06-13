@@ -6,72 +6,88 @@
     android:orientation="vertical"
     tools:context=".Exam_Paper_Fragment">
 
-    <TextView
-        android:id="@+id/titleName"
-        android:gravity="center"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:text="湾大英语听力1-4AB"/>
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="75/120"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp"/>
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[单选]"
-            android:textColor="@color/black"
-            android:textSize="15sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_margin="20dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="假如需要显示一段代码,通常代码一行的长度超了手机屏幕的宽度,这时候TextView默认会选择自动换行()。"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/box">
+            <TextView
+                android:id="@+id/titleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="湾大英语听力1-4AB"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="75/120"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_describe"
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:textSize="17sp"
-            android:text=""/>
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[单选]"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:text="假如需要显示一段代码,通常代码一行的长度超了手机屏幕的宽度,这时候TextView默认会选择自动换行()。"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_describe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

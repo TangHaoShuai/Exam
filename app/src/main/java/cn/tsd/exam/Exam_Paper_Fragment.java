@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -55,16 +56,132 @@ public class Exam_Paper_Fragment extends Fragment {
                 singleChoice();
             } else if (testQuestions.getTqType().equals(TqType.MULTIPLE_CHOICE)) {  //如果是多选题
                 multipleChoice();
+            } else if (testQuestions.getTqType().equals(TqType.COMPLETION)){//如果是填空题
+                completionQuestions();
+            }else  if (testQuestions.getTqType().equals(TqType.TRUE_OR_FALSE_QUESTIONS)){ //判断题
+                tfQuestions();
             }
         }
-
-
         textView.setText(title);
         count.setText(ex_count);
         type.setText("[" + ex_type + "]");
         return view;
     }
+    //判断题
+    private void tfQuestions(){
+        RadioGroup group = new RadioGroup(getActivity());
+        //封装了View的位置、高、宽等信息
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 100);
+        group.setLayoutParams(params);
+        List<RadioButton> radioButtons = new ArrayList<>();
+        for (int i = 0; i <= 1; i++) {
+            RadioButton radioButton = new RadioButton(getActivity());
+            if (i == 0 ){
+                radioButton.setText("正确");
+            }else {
+                radioButton.setText("错误");
+            }
+            radioButton.setId(i);
+            radioButtons.add(radioButton);
+            group.addView(radioButton);
+        }
+        linearLayout.addView(group);
+        for (RadioButton radioButton : radioButtons) {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) group.getLayoutParams();
+            layoutParams.setMargins(20, 0, 0, 20);
+            radioButton.setLayoutParams(layoutParams);
+        }
 
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int tpgA = 0;
+                int tpgB = 0;
+                if (!testQuestions.getResult().get(0).trim().equals("正确")){
+                    //如果正确答案是错误 tpg为1 正确为0
+                    tpgA = 1;
+                }
+                for (RadioButton a:radioButtons){
+                    a.setBackgroundColor(Color.WHITE);
+                }
+                // 如果用户选择了正确的选项 答案也是正确
+                if (checkedId == 0 && tpgA == 0){
+                    radioButtons.get(checkedId).setBackgroundColor(Color.parseColor("#00FF00"));
+                    examPaper.ex_correct.add(testQuestions.getId()); //正确把题目id添加进ex_correct
+                    examPaper.ex_mistake.remove(testQuestions.getId()); //把错题的集合里面的删除
+                }else {
+                    tpgB = 1;
+                    radioButtons.get(checkedId).setBackgroundColor(Color.RED);
+                    examPaper.ex_mistake.add(testQuestions.getId()); //错误把题目id添加进ex_correct
+                    examPaper.ex_correct.remove(testQuestions.getId());
+                }
+                tv_describe.setText("您的答案是:"+(tpgB==0?"正确":"错误")+"\n正确答案:"+testQuestions.getResult().get(0)+"\n解释:"+testQuestions.getAnalysis());
+                examPaper.setStatistics(); //刷新对错题目数
+            }
+        });
+
+    }
+
+    //填空
+    private void completionQuestions(){
+        ArrayList<EditText> editTexts = new ArrayList<>();
+        for (int i = 0; i < testQuestions.getResult().size(); i++) {
+            EditText editText = new EditText(getActivity());
+            linearLayout.addView(editText);
+            editText.setHint("请输入答案");
+            //设置样式
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) editText.getLayoutParams();
+            layoutParams.setMargins(100, 0, 100, 20);
+            editText.setLayoutParams(layoutParams);
+            editTexts.add(editText);
+        }
+        Button button = new Button(getActivity());
+        //封装了View的位置、高、宽等信息
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        button.setLayoutParams(params);
+        button.setGravity(Gravity.CENTER);
+        button.setText("确认");
+        button.setTextColor(Color.BLACK);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) button.getLayoutParams();
+        layoutParams.setMargins(100, 0, 100, 20);
+        button.setLayoutParams(layoutParams);
+        linearLayout.addView(button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.requestFocus();
+                int tag = 0 ;
+                String answer = "";
+                String rightAnswers = "";
+                for (int i = 0; i < editTexts.size(); i++) {
+                    String value = editTexts.get(i).getText().toString().trim();
+                    String value2 = testQuestions.getResult().get(i).trim();
+                    answer+=value+"  ";
+                    rightAnswers+=value2+"  ";
+                    if (value.equals(value2)){
+                        editTexts.get(i).setBackgroundColor(Color.parseColor("#00FF00"));
+                    }else{
+                        tag++;
+                        editTexts.get(i).setBackgroundColor(Color.RED);
+                    }
+                }
+                if (tag == 0 ){
+                    examPaper.ex_correct.add(testQuestions.getId()); //正确把题目id添加进ex_correct
+                    examPaper.ex_mistake.remove(testQuestions.getId()); //把错题的集合里面的删除
+                    tv_describe.setText("");
+                }else {
+                    examPaper.ex_mistake.add(testQuestions.getId()); //错误把题目id添加进ex_correct
+                    examPaper.ex_correct.remove(testQuestions.getId());
+                }
+                tv_describe.setText("您的答案是:"+answer+"\n正确答案:"+rightAnswers+"\n解释:"+testQuestions.getAnalysis());
+                examPaper.setStatistics(); //刷新对错题目数
+            }
+        });
+
+    }
+    //多项选择
     private void multipleChoice() {
         ArrayList<CheckBox> checkBoxes = new ArrayList<>(); // checkBoxes集合
         TreeSet <CheckBox> selectedCheckBox = new TreeSet<>(new Comparator<CheckBox>() {
@@ -77,7 +194,7 @@ public class Exam_Paper_Fragment extends Fragment {
 
             }
         });
-        //选项的集合
+        //创建CheckBox的集合
         for (int i = 0; i < testQuestions.getOptions().size(); i++) {
             CheckBox checkBox = new CheckBox(getActivity());
             String tq = testQuestions.getOptions().get(i); //选项
@@ -172,8 +289,7 @@ public class Exam_Paper_Fragment extends Fragment {
             }
         });
     }
-
-
+    //单选
     private void singleChoice() {
         RadioGroup group = new RadioGroup(getActivity());
         //封装了View的位置、高、宽等信息

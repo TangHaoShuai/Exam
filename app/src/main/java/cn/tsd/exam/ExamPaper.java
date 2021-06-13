@@ -106,14 +106,22 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
 
             //试题
             TqType tqType = null;
-            if (i<3){
+            if (i<=3){
+                tqType  = TqType.COMPLETION;
+                result.add("PHP");
+                result.add("JAVA");
+            }else if (i > 3 && i< 8 ){
                 tqType  = TqType.MULTIPLE_CHOICE;
                 result.add("PHP");
                 result.add("JAVA");
-            }else{
+            }else if (i>=8 && i<10){
                 tqType  = TqType.SINGLE_CHOICE;
                 result.add("PHP");
+            }else {
+                tqType  = TqType.TRUE_OR_FALSE_QUESTIONS;
+                result.add("正确");
             }
+
             TestQuestions questions = new TestQuestions(String.valueOf(1000 + i), "123", "世界上最好的编程语言是什么?",
                     tqType, "世界上最好的编程语言是PHP", options, result);
             testQuestions.add(questions);
