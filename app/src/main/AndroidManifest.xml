@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Exam"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ExamPaper"></activity>
+        <activity android:name=".GradeActivity"></activity>
+        <activity android:name=".ExamPaper" />
         <activity android:name=".ExamPaperDescribe" />
         <activity android:name=".IndexActivity" />
         <activity android:name=".RegisterActivity" />

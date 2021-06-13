@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -26,9 +29,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn_Login, btn_Register;
-
-
     private IUiListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_login:
                 intent = new Intent(MainActivity.this, IndexActivity.class);
                 startActivity(intent);
-
                 break;
             case R.id.btn_register:
                  intent = new Intent(MainActivity.this, RegisterActivity.class);

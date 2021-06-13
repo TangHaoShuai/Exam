@@ -1,6 +1,6 @@
 package cn.tsd.exam;
 
-//考试
+
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -28,6 +28,9 @@ public class Exam_Paper_Fragment extends Fragment {
     private TextView textView,tv_describe;
     private LinearLayout linearLayout;
     public TestQuestions testQuestions; //试题
+    public static final String[] letters = new String[]{"A","B","C","D","E","F","G","H","I",
+            "J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+    private int label = 0; //用来记录正确答案所在的选项
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_exam__pape_, container, false);
@@ -41,8 +44,12 @@ public class Exam_Paper_Fragment extends Fragment {
                 group.setLayoutParams(params);
                 List<RadioButton> radioButtons = new ArrayList<>();
                 for (int i = 0; i < testQuestions.getOptions().size(); i++) {
+                    String tq = testQuestions.getOptions().get(i); //选项
+                    if (tq.equals(testQuestions.getResult().get(0))){ //当前选项和正确答案一样 就标记一下他
+                        label = i;
+                    }
                     RadioButton radioButton = new RadioButton(getActivity());
-                    radioButton.setText(testQuestions.getOptions().get(i));
+                    radioButton.setText(letters[i]+"  "+tq);
                     radioButton.setId(i);
                     radioButtons.add(radioButton);
                     group.addView(radioButton);
@@ -62,7 +69,7 @@ public class Exam_Paper_Fragment extends Fragment {
                         for (int i = 0; i < testQuestions.getOptions().size(); i++) {
                           if ( radioButtons.get(i).getId() == checkedId ){
                               //如果选中的答案和正确答案一样
-                              if (radioButtons.get(i).getText().toString().trim().equals(testQuestions.getResult().get(0).toString().trim())){
+                              if (radioButtons.get(i).getText().toString().substring(1).trim().equals(testQuestions.getResult().get(0).toString().trim())){
                                   Utility.setRadioButtonsStyle(radioButtons.get(i),radioButtons,Color.parseColor("#00FF00"));
                                   tv_describe.setText("");
                                   examPaper.ex_correct.add(testQuestions.getId());
@@ -74,8 +81,8 @@ public class Exam_Paper_Fragment extends Fragment {
                                   }
                               }else {
                                   Utility.setRadioButtonsStyle(radioButtons.get(i),radioButtons,Color.parseColor("#D83232"));
-                                  tv_describe.setText("您选择了:"+radioButtons.get(i).getText()+"\n " +
-                                          "正确答案是:"+testQuestions.getResult().get(0)+"\n"+"解释:"+testQuestions.getAnalysis());
+                                  tv_describe.setText("您选择了:"+radioButtons.get(i).getText()+"\n" +
+                                          "正确答案是:"+letters[label]+"  "+testQuestions.getResult().get(0)+"\n"+"解释:"+testQuestions.getAnalysis());
                                   examPaper.ex_mistake.add(testQuestions.getId());
                                   Iterator<String> iterator = examPaper.ex_correct.iterator();
                                   while (iterator.hasNext()){
@@ -92,6 +99,7 @@ public class Exam_Paper_Fragment extends Fragment {
                 });
             }
         }
+
 
         textView.setText(title);
         count.setText(ex_count);

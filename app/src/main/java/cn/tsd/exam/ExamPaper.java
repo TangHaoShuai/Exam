@@ -5,18 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cn.tsd.exam.adapter.GridViewAdapter;
@@ -40,11 +48,14 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
     public Set<String> ex_mistake = new HashSet<>(); //统计错题id
     private LinearLayout btn_grade;
     public AlertDialog dialog;
+    private LinearLayout btn_submit;
+    static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_paper);
+        activity = this;
         init();
         mFragmentManager = getSupportFragmentManager();//定义fragment管理器
         initFragmetList();//初始化fragment的列表
@@ -62,6 +73,8 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
         mistake = (TextView) findViewById(R.id.mistake);
         btn_grade = findViewById(R.id.btn_grade);
         btn_grade.setOnClickListener(this);
+        btn_submit = findViewById(R.id.btn_submit);
+        btn_submit.setOnClickListener(this);
     }
 
     private void initViewPager() {
@@ -92,7 +105,7 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
             List<String> result = new ArrayList<String>();
             result.add("PHP");
             //试题
-            TestQuestions questions = new TestQuestions(String.valueOf(1000+i), "123", "世界上最好的编程语言是什么?",
+            TestQuestions questions = new TestQuestions(String.valueOf(1000 + i), "123", "世界上最好的编程语言是什么?",
                     TqType.SINGLE_CHOICE, "世界上最好的编程语言是PHP", options, result);
             testQuestions.add(questions);
         }
@@ -107,7 +120,7 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
             fragment.title = testPaper.getName();//设置试卷题目
             fragment.testQuestions = testPaper.getTestQuestions().get(i);//设置选项
             fragment.ex_type = testPaper.getTestQuestions().get(i).getTqType().getName();//设置选项类型
-            fragment.ex_count = i+1 + "/" + testPaper.getTestQuestions().size(); //设置题目计数
+            fragment.ex_count = i + 1 + "/" + testPaper.getTestQuestions().size(); //设置题目计数
             mFragmentList.add(fragment);
         }
 
@@ -120,7 +133,57 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
                 //答题卡对话框
                 sowDialog();
                 break;
+            case R.id.btn_submit:
+                int tq_count = testPaper.getTestQuestions().size();
+                if (tq_count > (ex_correct.size() + ex_mistake.size())) {
+                    showVerifyDialog(false);
+                }else{
+                    showVerifyDialog(true);
+                }
+                break;
         }
+    }
+
+    private void showVerifyDialog( Boolean isComplete) {
+        View view = LayoutInflater.from(this).inflate(R.layout.verify_dialog_layout, null);
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+        TextView mTvDescribe;
+        Button mBtnSubmit;
+        Button mBtnLookAnswerSheet;
+        Button mBtnCancel;
+        mTvDescribe = (TextView) view.findViewById(R.id.tv_describe);
+        mBtnSubmit = (Button) view.findViewById(R.id.btn_submit);
+        mBtnLookAnswerSheet = (Button) view.findViewById(R.id.btn_look_answer_sheet);
+        mBtnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        if (isComplete){ // 如果题目全选完了
+            mBtnLookAnswerSheet.setVisibility(View.GONE);
+            mTvDescribe.setText("确认交卷？");
+            mTvDescribe.setGravity(Gravity.CENTER);
+        }
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        mBtnLookAnswerSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                sowDialog();
+            }
+        });
+        mBtnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExamPaper.this,GradeActivity.class);
+                intent.putExtra("count",String.valueOf(testPaper.getTestQuestions().size())); //总题数
+                intent.putExtra("ex_correct",String.valueOf(ex_correct.size())); //答对的题数
+                startActivity(intent);
+            }
+        });
+        dialog.show();
+
     }
 
     //答题卡对话框
@@ -128,7 +191,7 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null);
         dialog = new AlertDialog.Builder(this).setView(view).create();
         GridView grid_view = view.findViewById(R.id.grid_view);
-        GridViewAdapter adapter = new GridViewAdapter(testPaper.getTestQuestions(), this,ex_correct,ex_mistake);
+        GridViewAdapter adapter = new GridViewAdapter(testPaper.getTestQuestions(), this, ex_correct, ex_mistake);
         grid_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
