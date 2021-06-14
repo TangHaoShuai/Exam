@@ -42,12 +42,15 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation files('libs\\open_sdk_3.5.4.11_r3f56456_lite.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('libs\\gson-2.8.0.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation 'com.youth.banner:banner:2.1.0'
+    implementation 'com.youth.banner:banner:2.1.0'  //轮播图
     implementation 'com.github.bumptech.glide:glide:4.12.0'//添加网络图片
+    implementation "com.squareup.okhttp3:okhttp:4.9.0" //OK HTTP
+
 
 
 }

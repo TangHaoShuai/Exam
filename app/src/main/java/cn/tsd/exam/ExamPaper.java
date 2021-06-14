@@ -130,7 +130,7 @@ public class ExamPaper extends AppCompatActivity implements View.OnClickListener
 
         testPaper = new TestPaper("123", "JAVA基础测试题", "123", testQuestions,
                 Academy.ELECTRONIC_INFORMATION, "Java测试题目", "123",
-                new User("123", "唐好帅", "移动2", Academy.ADMINISTERED)); //试卷
+                new User("123", "唐好帅", "移动2", Academy.ADMINISTERED,"13123","12332")); //试卷
 
         for (int i = 0; i < testPaper.getTestQuestions().size(); i++) { //根据题目有多少个题目就创建多少个fragment
             Exam_Paper_Fragment fragment = new Exam_Paper_Fragment(); //实例化答题界面

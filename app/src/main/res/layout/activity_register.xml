@@ -35,31 +35,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <EditText
+            android:id="@+id/tv_name"
             android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入姓名"/>
         <EditText
+            android:id="@+id/tv_studentNumber"
             android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入学号"/>
         <EditText
+            android:id="@+id/tv_password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入密码"/>
         <EditText
+            android:id="@+id/tv_confirmPassword"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请确认密码"/>
         <EditText
+            android:id="@+id/phone"
             android:inputType="phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入手机号"/>
         <Button
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="注册"/>

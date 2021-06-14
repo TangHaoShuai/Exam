@@ -57,7 +57,7 @@ public class MyQuestionBankFragment extends Fragment {
                 // 模拟10张试卷
                 TestPaper testPaper = new TestPaper("123" + i, "123" + i + 1, "123", testQuestions,
                         Academy.ELECTRONIC_INFORMATION, "Java测试题目", "123",
-                        new User("123", "唐好帅", "移动2", Academy.ADMINISTERED)); //试卷
+                        new User("123", "唐好帅", "移动2", Academy.ADMINISTERED,"15077588679","12312")); //试卷
                 papers.add(testPaper);
             }
         }

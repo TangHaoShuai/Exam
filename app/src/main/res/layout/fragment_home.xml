@@ -55,8 +55,8 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/shangchuan"/>
                 <TextView
                     android:textColor="@color/black"
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="上传题库"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     />
             </LinearLayout>
 
@@ -75,8 +75,8 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/ks"/>
                 <TextView
                     android:textColor="@color/black"
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="进入考试"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     />
             </LinearLayout>
 
@@ -95,8 +95,8 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/daoru"/>
                 <TextView
                     android:textColor="@color/black"
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="客服导题"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     />
             </LinearLayout>
 
@@ -115,8 +115,8 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/paizhao"/>
                 <TextView
                     android:textColor="@color/black"
@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="拍照搜题"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     />
             </LinearLayout>
 
@@ -157,8 +157,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/dianxin"/>
                     <TextView
                         android:textColor="@color/black"
@@ -166,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="电信学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -178,8 +178,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/haiyang"/>
                     <TextView
                         android:textColor="@color/black"
@@ -187,7 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="海洋学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -199,8 +199,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/haiyun"/>
                     <TextView
                         android:textColor="@color/black"
@@ -208,7 +208,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="海运学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -220,8 +220,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/renwen"/>
                     <TextView
                         android:textColor="@color/black"
@@ -229,7 +229,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="人文学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -241,8 +241,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/jingguan"/>
                     <TextView
                         android:textColor="@color/black"
@@ -250,7 +250,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="经管学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -270,8 +270,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/taoci"/>
                     <TextView
                         android:textColor="@color/black"
@@ -279,7 +279,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="陶设学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -291,8 +291,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/jiaoyu"/>
                     <TextView
                         android:textColor="@color/black"
@@ -300,7 +300,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="教育学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -312,8 +312,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/jichuan"/>
                     <TextView
                         android:textColor="@color/black"
@@ -321,7 +321,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="机船学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -333,8 +333,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/li"/>
                     <TextView
                         android:textColor="@color/black"
@@ -342,7 +342,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="理学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -354,8 +354,8 @@
                     android:gravity="center"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/yingyu"/>
                     <TextView
                         android:textColor="@color/black"
@@ -363,7 +363,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="外语学院"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -384,10 +384,13 @@
 
                 <ListView
                     android:id="@+id/listview"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
             </LinearLayout>
         </ScrollView>
 

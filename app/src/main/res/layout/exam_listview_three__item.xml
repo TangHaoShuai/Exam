@@ -7,19 +7,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="80dp"
-            android:layout_height="130dp"
+            android:layout_height="100dp"
             android:src="@drawable/ks"/>
 
         <LinearLayout
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -30,6 +30,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -46,25 +47,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="电信与信息工程学院"/>
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="唐寿灯"/>
+
             </LinearLayout>
 
-
+            <TextView
+                android:id="@+id/author"
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="唐寿灯"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
             <Button
                 android:id="@+id/collect"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="收藏"/>
 
         </LinearLayout>
